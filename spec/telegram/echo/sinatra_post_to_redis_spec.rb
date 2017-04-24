@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe TelegramEchoServer::SinatraPostToRedis do
+describe 'SinatraPostToRedis' do
   it 'should allow send post notification' do
     post '/', notification: 'hello rspec'
 
