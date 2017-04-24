@@ -15,8 +15,7 @@ module TelegramEchoServer
       Telegram::Bot::Client.run(config['telegram_bot_token']) do |bot|
         loop do
           bot.api.send_message(chat_id: config['chat_id'],
-                               text: queue.pop,
-                               parse_mode: 'Markdown')
+                               text: queue.pop)
         end
       end
     end
