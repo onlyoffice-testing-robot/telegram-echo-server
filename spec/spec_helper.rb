@@ -1,11 +1,14 @@
-require 'bundler/setup'
-require 'telegram/echo/server'
+require 'rack/test'
+require 'rspec'
+require_relative '../lib/telegram_echo_server.rb'
 
-RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = '.rspec_status'
+ENV['RACK_ENV'] = 'test'
 
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+module RSpecMixin
+  include Rack::Test::Methods
+  def app
+    described_class
   end
 end
+
+RSpec.configure { |c| c.include RSpecMixin }
