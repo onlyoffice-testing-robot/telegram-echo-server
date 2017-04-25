@@ -6,6 +6,11 @@ describe 'SinatraPostToRedis' do
     expect(last_response.status).to eq 200
   end
 
+  it 'should allow post with two params' do
+    post '/', notification: 'hello rspec2', chat: 'qa_chat'
+    expect(last_response.status).to eq 200
+  end
+
   it 'should not allow send other post' do
     post '/', stuff: 'hello rspec'
 
@@ -16,6 +21,12 @@ describe 'SinatraPostToRedis' do
     queue = Redis::Queue.new('payload_queue',
                              'bp_payload_queue',
                              redis: Redis.new)
-    expect(queue.pop).to eq('hello rspec')
+    queue_data = JSON.parse(queue.pop)
+    expect(queue_data['notification']).to eq('hello rspec')
+    expect(queue_data['chat']).to be_nil
+
+    queue_data = JSON.parse(queue.pop)
+    expect(queue_data['notification']).to eq('hello rspec2')
+    expect(queue_data['chat']).to eq('qa_chat')
   end
 end
