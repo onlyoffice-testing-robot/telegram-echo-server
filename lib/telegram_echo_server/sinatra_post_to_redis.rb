@@ -1,3 +1,4 @@
+require 'json'
 require 'sinatra'
 require 'redis-queue'
 require_relative 'sinatra_post_to_redis/sinatra_helper'
